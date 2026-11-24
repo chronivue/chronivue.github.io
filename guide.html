@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChroniVue Guide – How to use every feature</title>
+<meta name="description" content="How to use ChroniVue: camera, GPS stamp, map and QR code, brand, document scanner, QR reader, projects, PDF reports and every setting.">
+<link rel="canonical" href="https://chronivue.github.io/guide.html">
+<meta property="og:title" content="ChroniVue Guide">
+<meta property="og:url" content="https://chronivue.github.io/guide.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://chronivue.github.io/img/camera.webp">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<style>
+  @font-face { font-family:"Poppins"; font-weight:700; src:url("poppins-bold.ttf") format("truetype"); font-display:swap; }
+  :root { --bg:#F3F6FB; --card:#FFFFFF; --text:#0B1020; --sub:#5B6480; --accent:#007F69; --line:#D6DCEB; --chip:#E9EDF6; --tip:#E6F7F3; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0B1020; --card:#151C33; --text:#F2F5FF; --sub:#9AA3C7; --accent:#00E5C3; --line:#26304F; --chip:#1D2640; --tip:#12302D; }
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.6 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
+  header { display:flex; align-items:center; justify-content:space-between; padding:18px 0; gap:12px; }
+  .logo { display:flex; align-items:center; gap:10px; font-family:"Poppins",sans-serif; font-weight:700; font-size:21px; color:var(--text); }
+  .logo:hover { text-decoration:none; }
+  .logo svg { width:36px; height:36px; }
+  .v { color:var(--accent); }
+  nav a { margin-left:18px; color:var(--sub); font-size:15px; }
+  nav a.on { color:var(--accent); font-weight:600; }
+  .intro { padding:28px 0 8px; }
+  h1 { font-size:clamp(28px,5vw,42px); line-height:1.15; margin:0 0 8px; letter-spacing:-0.4px; }
+  .lead { color:var(--sub); margin:0 0 20px; font-size:17px; }
+  #q { width:100%; padding:14px 18px; font-size:16px; border-radius:14px; border:1px solid var(--line); background:var(--card); color:var(--text); outline:none; }
+  #q:focus { border-color:var(--accent); }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 8px; }
+  .chips a { background:var(--chip); color:var(--text); padding:7px 14px; border-radius:20px; font-size:14px; }
+  .chips a:hover { text-decoration:none; color:var(--accent); }
+  .none { color:var(--sub); }
+  .topic { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:22px; margin:18px 0; scroll-margin-top:12px; }
+  .topic h2 { display:flex; align-items:center; gap:12px; font-size:22px; margin:0 0 14px; }
+  .num { width:32px; height:32px; flex:none; border-radius:50%; display:grid; place-items:center; font-size:15px; font-weight:800;
+         background:linear-gradient(135deg,#00E5C3,#3CC8F5); color:#0B1020; }
+  h3.sub { font-size:15px; text-transform:uppercase; letter-spacing:.6px; color:var(--accent); margin:22px 0 10px; }
+  .steps { margin:0; padding-left:22px; }
+  .steps li { margin:8px 0; }
+  .opts { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+  .opt { border:1px solid var(--line); border-radius:14px; padding:14px 16px; }
+  .opt h3 { margin:0 0 4px; font-size:16px; }
+  .opt p { margin:0; color:var(--sub); font-size:15px; }
+  .muted { color:var(--sub); margin-top:0; }
+  .tip { background:var(--tip); border-radius:12px; padding:12px 14px; margin:16px 0 0; font-size:15px; }
+  table { width:100%; border-collapse:collapse; font-size:15px; }
+  th, td { text-align:left; padding:10px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { color:var(--sub); font-weight:600; }
+  details { border:1px solid var(--line); border-radius:12px; padding:12px 16px; margin:10px 0; }
+  summary { cursor:pointer; font-weight:600; }
+  details p { color:var(--sub); margin:8px 0 0; }
+  .shots { display:flex; gap:14px; overflow-x:auto; padding:4px 2px 10px; margin:4px 0 16px; scroll-snap-type:x mandatory; }
+  .shots figure { margin:0; flex:0 0 220px; scroll-snap-align:start; }
+  .shots img { width:100%; height:auto; display:block; border-radius:16px; border:1px solid var(--line); cursor:zoom-in; }
+  .shots figcaption { font-size:13px; color:var(--sub); text-align:center; margin-top:6px; }
+  .zoom { position:fixed; inset:0; background:rgba(5,8,18,.88); display:none; align-items:center; justify-content:center; padding:16px; z-index:9; cursor:zoom-out; }
+  .zoom.on { display:flex; }
+  .zoom img { max-width:100%; max-height:100%; border-radius:16px; }
+  .quick { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+  .q { border:1px solid var(--line); border-radius:14px; padding:14px 16px; }
+  .q h3 { margin:0 0 6px; font-size:16px; }
+  .path { display:flex; flex-wrap:wrap; align-items:center; gap:6px; font-size:14px; color:var(--sub); }
+  .path span { background:var(--chip); color:var(--text); border-radius:8px; padding:3px 9px; }
+  .path i { font-style:normal; opacity:.6; }
+  .q a { font-size:14px; display:inline-block; margin-top:8px; }
+  .howto { display:grid; grid-template-columns:260px 1fr; gap:24px; align-items:start; margin:18px 0 26px; scroll-margin-top:12px; }
+  .howto.small { grid-template-columns:200px 1fr; }
+  .ph { margin:0; border-radius:22px; padding:6px; background:#0B1020; box-shadow:0 0 0 1px var(--line), 0 18px 40px -18px rgba(11,16,32,.5); }
+  .ph img { width:100%; height:auto; display:block; border-radius:17px; cursor:zoom-in; }
+  .legend h4 { margin:0 0 10px; font-size:17px; }
+  .legend ol { list-style:none; counter-reset:n; margin:0; padding:0; }
+  .legend li { counter-increment:n; position:relative; padding:0 0 12px 40px; color:var(--sub); font-size:15px; }
+  .legend li b { color:var(--text); }
+  .legend li::before { content:counter(n); position:absolute; left:0; top:0; width:26px; height:26px; border-radius:50%;
+        background:#FF6B35; color:#fff; font-weight:800; font-size:14px; display:grid; place-items:center; box-shadow:0 0 0 2px #fff; }
+  @media (max-width:700px) {
+    .quick { grid-template-columns:1fr; }
+    .howto, .howto.small { grid-template-columns:1fr; }
+    .ph { max-width:300px; margin:0 auto; }
+    .howto.small .ph { max-width:260px; }
+  }
+  .hide { display:none !important; }
+  footer { border-top:1px solid var(--line); margin-top:32px; padding:28px 0 40px; color:var(--sub); font-size:14px; }
+  footer .row { display:flex; flex-wrap:wrap; gap:18px; justify-content:space-between; }
+  footer a { color:var(--sub); }
+  @media (max-width:700px) {
+    .opts { grid-template-columns:1fr; }
+    nav a:not(.keep) { display:none; }
+    .topic { padding:18px 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="logo" href="./">
+      <svg viewBox="0 0 108 108" aria-hidden="true">
+        <defs><linearGradient id="g" gradientUnits="userSpaceOnUse" x1="27" y1="80" x2="82" y2="34"><stop offset="0" stop-color="#00E5C3"/><stop offset="1" stop-color="#FF6B35"/></linearGradient></defs>
+        <rect width="108" height="108" rx="24" fill="#0B1020"/>
+        <rect x="40" y="30.5" width="16" height="8" rx="3" fill="url(#g)"/>
+        <rect x="25.4" y="35.4" width="57.2" height="43.2" rx="8.6" fill="url(#g)"/>
+        <rect x="28.6" y="38.6" width="50.8" height="36.8" rx="5.4" fill="#192139"/>
+        <circle cx="54" cy="57" r="15.5" fill="url(#g)"/>
+        <circle cx="54" cy="57" r="11.8" fill="#0B1020"/>
+        <line x1="54" y1="57" x2="49.8" y2="54.1" stroke="#FF6B35" stroke-width="2.4" stroke-linecap="round"/>
+        <line x1="54" y1="57" x2="61" y2="53" stroke="#F2F5FF" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="73.5" cy="44.2" r="2.7" fill="#FF6B35"/>
+      </svg>
+      <span>Chroni<span class="v">V</span>ue</span>
+    </a>
+    <nav>
+      <a href="./#features">Features</a>
+      <a class="on keep" href="guide.html">Guide</a>
+      <a href="privacy-policy.html">Privacy</a>
+      <a class="keep" href="mailto:chronivue.support@gmail.com">Contact</a>
+    </nav>
+  </header>
+
+<main>
+  <div class="intro">
+    <h1>How to use ChroniVue</h1>
+    <p class="lead">Every screen and setting, explained in plain words. Search for what you need or jump to a topic.</p>
+    <input id="q" type="search" placeholder="Search the guide (e.g. map, PDF, folder)" aria-label="Search the guide" autocomplete="off">
+    <div class="chips" id="toc">
+      <a href="#start">Getting started</a>
+      <a href="#quick">Quick how-to</a>
+      <a href="#camera">Camera screen</a>
+      <a href="#scanner">Document scanner</a>
+      <a href="#qr">QR reader</a>
+      <a href="#projects">Projects &amp; reports</a>
+      <a href="#settings">Settings</a>
+      <a href="#files">Where files are saved</a>
+      <a href="#faq">Problems &amp; answers</a>
+    </div>
+    <p id="none" class="none" hidden>Nothing found. Try another word, or <a href="mailto:chronivue.support@gmail.com">ask us</a>.</p>
+  </div>
+
+  <section class="topic" id="start">
+    <h2><span class="num">1</span>Getting started</h2>
+    <ol class="steps">
+      <li><b>Allow camera and location.</b> When ChroniVue opens for the first time, allow the camera, and allow location so the place can be printed on your photos. Allow the microphone if you want sound in videos.</li>
+      <li><b>Turn on phone location.</b> If the phone's location is off, ChroniVue asks you to turn it on with one tap. The first fix outdoors usually takes a few seconds; the satellite count (🛰) shows on screen while it searches.</li>
+      <li><b>Take a photo.</b> Press the round shutter button. The date, time and location are stamped on the photo, which is saved in your gallery.</li>
+      <li><b>Make it yours.</b> Open <b>Settings</b> (gear icon) to choose what the stamp shows, add your company name and logo, a map or a QR code.</li>
+    </ol>
+    <p class="tip">Tip: the stamp preview at the top of Settings changes live, so you can see each setting before you take a photo.</p>
+  </section>
+
+  <section class="topic" id="quick">
+    <h2><span class="num">★</span>Quick how-to</h2>
+    <p class="muted">The most asked questions. Tap <b>See picture</b> to jump to a marked screenshot.</p>
+    <div class="quick">
+      <div class="q"><h3>Turn the stamp on or off</h3><div class="path"><span>⚙ Settings</span> <i>›</i> <span>Watermark</span> <i>›</i> <span>Show date &amp; location stamp</span></div><a href="#s-wm1">See picture ↓</a></div>
+      <div class="q"><h3>Turn the QR code on or off</h3><div class="path"><span>⚙ Settings</span> <i>›</i> <span>Map, QR &amp; compass</span> <i>›</i> <span>Maps QR code</span></div><a href="#s-mapqr">See picture ↓</a></div>
+      <div class="q"><h3>Add a map to photos</h3><div class="path"><span>⚙ Settings</span> <i>›</i> <span>Map, QR &amp; compass</span> <i>›</i> <span>Show map</span> <i>›</i> <span>Show map switch</span></div><a href="#s-map">See picture ↓</a></div>
+      <div class="q"><h3>Show the compass</h3><div class="path"><span>⚙ Settings</span> <i>›</i> <span>Map, QR &amp; compass</span> <i>›</i> <span>Compass</span></div><a href="#s-mapqr">See picture ↓</a></div>
+      <div class="q"><h3>Change photo or video quality</h3><div class="path"><span>⚙ Settings</span> <i>›</i> <span>Quality &amp; video</span> <i>›</i> <span>Photo size / Video quality</span></div><a href="#s-quality">See picture ↓</a></div>
+      <div class="q"><h3>Add your company name and logo</h3><div class="path"><span>⚙ Settings</span> <i>›</i> <span>Brand</span> <i>›</i> <span>Brand name / Choose logo</span></div><a href="#s-brand1">See picture ↓</a></div>
+      <div class="q"><h3>Change frame size (3:4, 9:16, Full)</h3><div class="path"><span>Camera screen</span> <i>›</i> <span>tap 3:4 at the top</span></div><a href="#s-ratio">See picture ↓</a></div>
+      <div class="q"><h3>Move the stamp to another corner</h3><div class="path"><span>⚙ Settings</span> <i>›</i> <span>Watermark</span> <i>›</i> <span>Stamp position</span></div><a href="#s-wm4">See picture ↓</a></div>
+    </div>
+    <p class="tip">The ⚙ Settings button is at the top right of the camera screen. You can also tap <b>Settings</b> in the bottom bar.</p>
+  </section>
+
+  <section class="topic" id="camera">
+    <h2><span class="num">2</span>Camera screen</h2>
+        <div class="howto" id="s-cam">
+      <figure class="ph"><img src="img/guide/cam-overview.webp" alt="Camera screen with numbered buttons" width="720" height="1470" loading="lazy"></figure>
+      <div class="legend"><h4>Buttons on the camera screen</h4><ol><li><b>Flash</b> Tap to switch: Off → Auto → On → Flashlight (light stays on).</li><li><b>Frame size</b> 3:4, 9:16 or Full screen.</li><li><b>Settings</b> Opens all settings.</li><li><b>Brightness (exposure)</b> Make the picture lighter or darker before you shoot.</li><li><b>Zoom</b> Shows the zoom level. Tap it to change the zoom.</li><li><b>Photo · Video · Scan</b> Choose what you want to do.</li><li><b>Gallery</b> Opens your latest photo or video.</li><li><b>Shutter</b> Takes the photo, or starts and stops a video.</li><li><b>Switch camera</b> Front or back camera.</li></ol></div>
+    </div>
+    <div class="howto small" id="s-ratio">
+      <figure class="ph"><img src="img/guide/cam-ratio.webp" alt="Frame size menu open" width="720" height="1470" loading="lazy"></figure>
+      <div class="legend"><h4>Change the frame size</h4><ol><li><b>Tap 3:4</b> at the top of the camera screen.</li><li><b>Pick a size</b> Full, 3:4 or 9:16. The stamp moves with the frame, so it always stays inside the photo.</li></ol></div>
+    </div>
+<div class="shots">
+      <figure><img src="img/camera.webp" alt="Camera screen with date, location, map and QR stamp" width="540" height="960" loading="lazy"><figcaption>Photo mode with stamp, map, QR and compass</figcaption></figure>
+      <figure><img src="img/video.webp" alt="Recording a video with live watermark" width="540" height="960" loading="lazy"><figcaption>Video: the stamp is added while recording</figcaption></figure>
+    </div>
+    <div class="opts">
+      <div class="opt"><h3>Photo · Video · Scan</h3><p>Tap the mode names above the shutter to switch between photos, video and the document scanner.</p></div>
+      <div class="opt"><h3>Flash</h3><p>Tap the flash icon to cycle: <b>Off → Auto → On → Flashlight</b>. Flashlight keeps the light on while you frame and take photos.</p></div>
+      <div class="opt"><h3>Frame size</h3><p>Choose <b>3:4</b>, <b>9:16</b> or <b>Full</b> screen. The stamp moves with the frame, so it always sits inside the photo.</p></div>
+      <div class="opt"><h3>Switch camera</h3><p>Use the switch button, or double-tap the preview if <i>Double-tap to switch camera</i> is on.</p></div>
+      <div class="opt"><h3>Gallery button</h3><p>Shows your latest photo or video. Tap it to open the file. After quick shooting it waits until every photo is saved.</p></div>
+      <div class="opt"><h3>Compass</h3><p>Shows the direction you face. Press and hold the compass to change its look, position, size and opacity.</p></div>
+      <div class="opt"><h3>Quick buttons</h3><p>Optional buttons for project, before/after compare, self-timer, custom text, tag and screen lock. Turn them on in <b>Settings → Main screen</b>.</p></div>
+      <div class="opt"><h3>Screen lock</h3><p>Locks the touch screen so nothing is pressed by accident, for example while recording in a pocket. Press and hold the lock to unlock.</p></div>
+      <div class="opt"><h3>Video</h3><p>The stamp is added while you record, so the video is ready the moment you stop. Turn on <i>Background recording</i> to keep recording with the screen off.</p></div>
+    </div>
+  </section>
+
+  <section class="topic" id="scanner">
+    <h2><span class="num">3</span>Document scanner</h2>
+    <div class="shots">
+      <figure><img src="img/scanner.webp" alt="Document scanner finding page corners" width="540" height="960" loading="lazy"><figcaption>The frame snaps to the page, then it becomes a clean PDF</figcaption></figure>
+    </div>
+    <ol class="steps">
+      <li><b>Open Scan.</b> Choose <b>Scan</b> on the camera screen. Turn on <i>Scan tab</i> in Settings if you don't see it.</li>
+      <li><b>Point at the page.</b> A frame snaps to the four corners. In <b>Auto</b> mode the photo is taken by itself once you hold steady; in <b>Manual</b> mode press the button. Tap Auto / Manual to switch.</li>
+      <li><b>Adjust corners.</b> Drag any corner to the page edge if needed, or choose <b>Full image</b>. Then tap <b>Next</b>.</li>
+      <li><b>Add more pages.</b> Keep scanning, up to 200 pages. You can also scan photos from your gallery.</li>
+      <li><b>Review.</b> For each page you can crop again, rotate, delete or pick a filter: <b>Auto, Original, Vivid, Natural, Gray, B&amp;W</b>. New pages use the last filter you chose.</li>
+      <li><b>Save.</b> Tap <b>Done</b>, enter a file name and choose <b>Images</b>, <b>PDF</b> or <b>Both</b>.</li>
+    </ol>
+    <div class="opts">
+      <div class="opt"><h3>Watermark strip</h3><p>Adds the date, time and location as a strip <i>below</i> each page, so no text on the paper is covered.</p></div>
+      <div class="opt"><h3>Copyable text in PDF</h3><p>Reads English (Latin) text on your phone, so you can search and copy text in the PDF. Works without internet.</p></div>
+    </div>
+    <p class="tip">Tip: good light and a dark surface under white paper give the fastest, cleanest corner detection.</p>
+  </section>
+
+  <section class="topic" id="qr">
+    <h2><span class="num">4</span>QR code reader</h2>
+    <div class="shots">
+      <figure><img src="img/qr-reader.webp" alt="Reading a QR code" width="540" height="960" loading="lazy"><figcaption>A scanned QR code with Open, Copy and Share</figcaption></figure>
+    </div>
+    <p>In Scan mode, choose <b>QR code</b> and point the camera at a code, or pick a photo from the gallery. ChroniVue shows what the code holds and lets you open a website, call a number, send an email, copy a Wi-Fi password, open a location, copy or share. It never opens a link without asking you.</p>
+  </section>
+
+  <section class="topic" id="projects">
+    <h2><span class="num">5</span>Projects &amp; PDF reports</h2>
+    <div class="shots">
+      <figure><img src="img/report.webp" alt="PDF report screen" width="540" height="960" loading="lazy"><figcaption>PDF report: choose project, period and layout</figcaption></figure>
+    </div>
+    <div class="opts">
+      <div class="opt"><h3>Projects</h3><p>Create a project for each job or site in <b>Settings → Projects &amp; reports</b>. Photos and videos of the active project are saved in its own folder, and each project keeps its own tags and custom text. Deleting a project never deletes photos.</p></div>
+      <div class="opt"><h3>PDF report</h3><p>Turn your photos into one PDF with the time, location and address of each photo. Choose a project, tag or period, a layout and a title, then share it. Saved in Download/ChroniVue.</p></div>
+      <div class="opt"><h3>Before / after</h3><p>Turn on the compare button, pick an earlier photo, and line up the new one with the faint overlay.</p></div>
+    </div>
+  </section>
+
+  <section class="topic" id="settings">
+    <h2><span class="num">6</span>Settings, step by step</h2>
+    <p class="muted">Every picture below is from the real app. The orange numbers match the list next to it. Changes are saved at once, and the preview at the top shows how your photo will look.</p>
+    <div id="s-menu" class="howto">
+      <figure class="ph"><img src="img/guide/set-menu.webp" alt="Settings menu" width="720" height="1460" loading="lazy"></figure>
+      <div class="legend"><h4>The Settings page</h4><ol><li><b>Search settings</b> Type any word, like “map” or “quality”.</li><li><b>Light / dark mode</b> System default, Light or Dark.</li><li><b>App language</b> 12 languages, or Automatic (phone language).</li><li><b>Settings groups</b> Tap a group to open it.</li><li><b>Bottom bar</b> Go to Camera, Settings or Gallery.</li></ol></div>
+    </div>
+
+    <h3 class="sub">Watermark</h3>
+    <div id="s-wm1" class="howto">
+      <figure class="ph"><img src="img/guide/wm-1.webp" alt="Watermark settings, part 1" width="720" height="1460" loading="lazy"></figure>
+      <div class="legend"><h4>Stamp on/off, language and format</h4><ol><li><b>Show date &amp; location stamp</b> The main switch. Turn it off to take photos without any stamp.</li><li><b>Watermark language</b> Write the stamp in another language (Bangla and Arabic use their own digits).</li><li><b>Date &amp; time format</b> Choose how the date looks. Time format can be 12 or 24 hour.</li><li><b>Coordinate format</b> Decimal (51.5007N) or degrees, minutes, seconds.</li><li><b>Location accuracy</b> Shows ±meters next to the coordinates.</li></ol></div>
+    </div>
+    <div id="s-wm2" class="howto">
+      <figure class="ph"><img src="img/guide/wm-2.webp" alt="Watermark settings, part 2" width="720" height="1460" loading="lazy"></figure>
+      <div class="legend"><h4>What else the stamp shows</h4><ol><li><b>Address detail</b> From a short place name to the full address (needs internet the first time).</li><li><b>Altitude &amp; speed</b> Height above sea level and speed.</li><li><b>Weather</b> Temperature and conditions (needs internet).</li><li><b>Units</b> Metric (m, km/h, °C) or imperial.</li><li><b>Tag</b> Pick or edit tags like Before, After, Site A.</li><li><b>Project name</b> Shows the active project on the stamp.</li><li><b>Index number</b> Numbers every photo and video (#0001).</li></ol></div>
+    </div>
+    <div id="s-wm3" class="howto">
+      <figure class="ph"><img src="img/guide/wm-3.webp" alt="Watermark style" width="720" height="1460" loading="lazy"></figure>
+      <div class="legend"><h4>Your own text and style</h4><ol><li><b>Custom text</b> Up to 3 lines, like a site name or job number.</li><li><b>Text size</b> Drag the slider to make the stamp bigger or smaller.</li><li><b>Text color</b> Tap a color. The rainbow circle lets you pick any color.</li><li><b>Font style</b> Choose a different font.</li></ol></div>
+    </div>
+    <div id="s-wm4" class="howto">
+      <figure class="ph"><img src="img/guide/wm-4.webp" alt="Watermark position and background" width="720" height="1460" loading="lazy"></figure>
+      <div class="legend"><h4>Position and background</h4><ol><li><b>Stamp position</b> Which corner the stamp sits in.</li><li><b>Show icons</b> Small icons before date, location and address.</li><li><b>Text alignment</b> Left, right or automatic.</li><li><b>Background panel</b> A soft panel behind the text, easier to read on bright photos.</li><li><b>Background color</b> Color of the panel.</li><li><b>Background opacity</b> How see-through the panel is. Text opacity is just below.</li></ol></div>
+    </div>
+
+    <h3 class="sub">Map, QR &amp; compass</h3>
+    <div id="s-mapqr" class="howto">
+      <figure class="ph"><img src="img/guide/mapqr.webp" alt="Map, QR and compass settings" width="720" height="1460" loading="lazy"></figure>
+      <div class="legend"><h4>Compass, QR code and map</h4><ol><li><b>Compass</b> Shows a compass on the camera screen.</li><li><b>Compass look</b> Design, position, size and opacity (picture below).</li><li><b>Maps QR code</b> Adds a QR code that opens the exact spot in Google Maps.</li><li><b>QR code only</b> A clean photo: no text, everything is inside the QR code.</li><li><b>QR code position</b> Right or left of the text.</li><li><b>Show map</b> Opens the map page, where you turn the map on.</li></ol></div>
+    </div>
+    <div id="s-compass" class="howto">
+      <figure class="ph"><img src="img/guide/compass-look.webp" alt="Compass look" width="720" height="1230" loading="lazy"></figure>
+      <div class="legend"><h4>Compass look</h4><ol><li><b>Design</b> Glass, Clear, Classic or Neon.</li><li><b>Position</b> Any corner of the screen.</li><li><b>Size</b> Make it bigger or smaller.</li><li><b>Opacity</b> How see-through it is.</li><li><b>Show on photos and videos</b> Also prints the compass on your pictures.</li></ol></div>
+    </div>
+    <p class="tip">Tip: on the camera screen, press and hold the compass to open this page directly.</p>
+    <div id="s-map" class="howto">
+      <figure class="ph"><img src="img/guide/map.webp" alt="Map settings" width="720" height="1130" loading="lazy"></figure>
+      <div class="legend"><h4>Map on your photos</h4><ol><li><b>Show map</b> Turn on to add a small map (needs internet the first time at a place).</li><li><b>Map position</b> Choose a corner.</li><li><b>Map opacity</b> How see-through the map is.</li><li><b>Map size</b> Bigger or smaller map.</li><li><b>Map scale (zoom)</b> How much area the map shows, e.g. “about 284 m wide”.</li><li><b>Show the travel line</b> Draws your route of the last 12 hours on the map.</li></ol></div>
+    </div>
+
+    <h3 class="sub">Brand</h3>
+    <div id="s-brand1" class="howto">
+      <figure class="ph"><img src="img/guide/brand-1.webp" alt="Brand settings" width="720" height="1460" loading="lazy"></figure>
+      <div class="legend"><h4>Your name and logo</h4><ol><li><b>Brand name</b> Type your company or your own name.</li><li><b>Letter colors</b> Select some letters in the name, then tap a color. “Reset letter colors” undoes it.</li><li><b>Choose logo</b> Pick a logo image from your gallery. “Remove logo” takes it off.</li><li><b>Brand font</b> 11 fonts, or the same as the stamp.</li><li><b>Brand name color</b> Color of the whole name.</li></ol></div>
+    </div>
+    <div id="s-brand2" class="howto">
+      <figure class="ph"><img src="img/guide/brand-2.webp" alt="Brand position and size" width="720" height="1460" loading="lazy"></figure>
+      <div class="legend"><h4>Position and size</h4><ol><li><b>Logo &amp; name position</b> Auto puts it opposite the stamp so they never overlap, or choose a place.</li><li><b>Brand logo size</b> Make the logo bigger or smaller.</li><li><b>Brand text size</b> Make the name bigger or smaller.</li></ol></div>
+    </div>
+
+    <h3 class="sub">Camera</h3>
+    <div id="s-cam1" class="howto">
+      <figure class="ph"><img src="img/guide/camera-1.webp" alt="Camera settings" width="720" height="1460" loading="lazy"></figure>
+      <div class="legend"><h4>Grid, level and timer</h4><ol><li><b>Grid lines</b> A 3×3 guide for better framing.</li><li><b>Level</b> A horizon line to keep photos straight.</li><li><b>Self-timer</b> Off, 3, 5 or 10 seconds.</li><li><b>Auto capture</b> Takes photos by itself every few seconds.</li><li><b>Camera orientation</b> Auto, or lock the camera to one direction.</li></ol></div>
+    </div>
+    <div id="s-cam2" class="howto">
+      <figure class="ph"><img src="img/guide/camera-2.webp" alt="Camera options" width="720" height="1460" loading="lazy"></figure>
+      <div class="legend"><h4>Tap, mirror and sounds</h4><ol><li><b>Tap to take photo</b> Tap anywhere on the preview to shoot.</li><li><b>Double-tap to switch camera</b> Double-tap to flip front and back.</li><li><b>Mirror front camera photos</b> Save selfies like you see them.</li><li><b>Keep original photo</b> Also saves a copy without the stamp.</li><li><b>Sounds</b> Shutter and recording tones on or off.</li></ol></div>
+    </div>
+
+    <h3 class="sub">Main screen</h3>
+    <div id="s-main" class="howto">
+      <figure class="ph"><img src="img/guide/main-screen.webp" alt="Main screen settings" width="720" height="1460" loading="lazy"></figure>
+      <div class="legend"><h4>Extra buttons on the camera screen</h4><ol><li><b>Project button</b> Shows and changes the active project.</li><li><b>Before/after compare</b> Line up a new photo with an earlier one.</li><li><b>Timer button</b> Quick self-timer.</li><li><b>Custom text button</b> Edit the stamp text without opening Settings.</li><li><b>Tag button</b> Pick a tag quickly.</li><li><b>Screen lock button</b> Locks the screen. Press and hold the lock to unlock.</li></ol></div>
+    </div>
+
+    <h3 class="sub">Quality &amp; video</h3>
+    <div id="s-quality" class="howto">
+      <figure class="ph"><img src="img/guide/quality.webp" alt="Quality and video settings" width="720" height="1460" loading="lazy"></figure>
+      <div class="legend"><h4>Photo and video quality</h4><ol><li><b>Photo size</b> Bigger size = more detail, bigger files. Medium (about 8 MP) is a good choice.</li><li><b>Photo quality (JPEG)</b> 90% is balanced. Lower = smaller files.</li><li><b>Video quality</b> For example Normal (720p) or higher.</li><li><b>White balance</b> Auto, or set it for the light you are in.</li><li><b>Background recording</b> Keeps recording when you leave the app or the screen is off.</li></ol></div>
+    </div>
+
+    <h3 class="sub">Files &amp; about</h3>
+    <div class="opts">
+      <div class="opt"><h3>Save folder</h3><p>DCIM/Camera, DCIM/ChroniVue or your own folder inside DCIM.</p></div>
+      <div class="opt"><h3>Reset all settings</h3><p>Returns every setting to default. Projects and photos are kept.</p></div>
+      <div class="opt"><h3>Feedback &amp; share</h3><p>Send us a problem or idea by email, or share ChroniVue with a link or QR code.</p></div>
+    </div>
+  </section>
+
+  <section class="topic" id="files">
+    <h2><span class="num">7</span>Where files are saved</h2>
+    <table>
+      <tr><th>What</th><th>Where on your phone</th></tr>
+      <tr><td>Photos &amp; videos</td><td>DCIM/Camera, DCIM/ChroniVue or your chosen folder (open them in your gallery)</td></tr>
+      <tr><td>Project photos</td><td>DCIM/ChroniVue/&lt;project name&gt;</td></tr>
+      <tr><td>Scanned pages (images)</td><td>Your photo folder</td></tr>
+      <tr><td>Scan PDFs &amp; reports</td><td>Download/ChroniVue (open with Files or a PDF app)</td></tr>
+    </table>
+  </section>
+
+  <section class="topic" id="faq">
+    <h2><span class="num">8</span>Problems &amp; answers</h2>
+    <details><summary>The location is missing or wrong</summary><p>Check that phone location is on and ChroniVue has location permission (Settings → Apps → ChroniVue → Permissions). Indoors, GPS can be slow or less exact; step near a window or outside for a few seconds. The ±meters value shows how exact the fix is.</p></details>
+    <details><summary>The address or map doesn't show</summary><p>The address and map need internet the first time at a place. Coordinates and the QR code always work offline. Places you visited before load without data.</p></details>
+    <details><summary>Will I lose my settings when I update?</summary><p>No. Updates keep your settings, brand, projects and photos. When a new version is ready, ChroniVue shows an update message; tap <b>Update now</b>.</p></details>
+    <details><summary>The scanner doesn't find the corners</summary><p>Use more light, hold the phone above the page, and put the page on a surface of a different color. You can always drag the corners by hand or use Manual mode.</p></details>
+    <details><summary>I can't find my PDF</summary><p>Open the Files app and go to Download → ChroniVue.</p></details>
+    <details><summary>The video stamp appears a few seconds after recording</summary><p>A few phones can't stamp while recording, so ChroniVue adds it right after you stop. The original video is never lost.</p></details>
+    <details><summary>The phone says storage is full</summary><p>ChroniVue checks free space before saving. Delete some files or move them to a computer, then try again.</p></details>
+    <details><summary>Something else?</summary><p>Write to <a href="mailto:chronivue.support@gmail.com">chronivue.support@gmail.com</a> or use <b>Settings → Send feedback</b>. Include your phone model if you can.</p></details>
+  </section>
+</main>
+</div>
+<footer>
+  <div class="wrap row">
+    <div>© 2026 ChroniVue</div>
+    <div>
+      <a href="./">Home</a> &nbsp;·&nbsp;
+      <a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp;
+      <a href="licenses.html">Open-source licenses</a> &nbsp;·&nbsp;
+      <a href="mailto:chronivue.support@gmail.com">chronivue.support@gmail.com</a>
+    </div>
+  </div>
+</footer>
+<div class="zoom" id="zoom"><img alt=""></div>
+<script>
+(function () {
+  var z = document.getElementById('zoom'), zi = z.querySelector('img');
+  document.querySelectorAll('.shots img, .ph img').forEach(function (im) { im.addEventListener('click', function () { zi.src = im.src; zi.alt = im.alt; z.classList.add('on'); }); });
+  z.addEventListener('click', function () { z.classList.remove('on'); });
+  var q = document.getElementById('q'), none = document.getElementById('none');
+  var topics = Array.prototype.slice.call(document.querySelectorAll('.topic'));
+  q.addEventListener('input', function () {
+    var t = q.value.trim().toLowerCase(), any = false;
+    topics.forEach(function (sec) {
+      var items = sec.querySelectorAll('.opt, .steps li, details, tr, p.tip, h3.sub, .shots figure, .howto, .q');
+      var secHit = !t || sec.querySelector('h2').textContent.toLowerCase().indexOf(t) >= 0;
+      var hits = 0;
+      items.forEach(function (el) {
+        var hit = !t || secHit || el.textContent.toLowerCase().indexOf(t) >= 0;
+        el.classList.toggle('hide', !hit);
+        if (hit) hits++;
+        if (t && hit && el.tagName === 'DETAILS') el.open = true;
+      });
+      var show = secHit || hits > 0 || (!items.length && sec.textContent.toLowerCase().indexOf(t) >= 0);
+      sec.classList.toggle('hide', !show);
+      if (show) any = true;
+    });
+    none.hidden = any;
+  });
+})();
+</script>
+</body>
+</html>

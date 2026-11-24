@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ChroniVue – GPS Stamp Camera</title>
+<meta name="description" content="ChroniVue stamps the date, time, GPS location, address, map and QR code on your photos and videos, and scans documents to searchable PDF. No account, no ads.">
+<link rel="canonical" href="https://chronivue.github.io/">
+<meta property="og:title" content="ChroniVue – GPS Stamp Camera">
+<meta property="og:url" content="https://chronivue.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://chronivue.github.io/img/camera.webp">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"ChroniVue","operatingSystem":"Android","applicationCategory":"PhotographyApplication","description":"GPS timestamp camera: date, time, location, map and QR code on photos and videos, plus a document scanner to searchable PDF.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://chronivue.github.io/"}
+</script>
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<style>
+  @font-face { font-family:"Poppins"; font-weight:700; src:url("poppins-bold.ttf") format("truetype"); font-display:swap; }
+  :root { --bg:#F3F6FB; --card:#FFFFFF; --text:#0B1020; --sub:#5B6480; --accent:#007F69; --line:#D6DCEB; --chip:#E9EDF6; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0B1020; --card:#151C33; --text:#F2F5FF; --sub:#9AA3C7; --accent:#00E5C3; --line:#26304F; --chip:#1D2640; }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.6 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  a { color:var(--accent); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  .wrap { max-width:1040px; margin:0 auto; padding:0 16px; }
+  header { display:flex; align-items:center; justify-content:space-between; padding:18px 0; gap:12px; }
+  .logo { display:flex; align-items:center; gap:10px; font-family:"Poppins",sans-serif; font-weight:700; font-size:21px; color:var(--text); }
+  .logo:hover { text-decoration:none; }
+  .logo svg { width:36px; height:36px; }
+  .v { color:var(--accent); }
+  nav a { margin-left:18px; color:var(--sub); font-size:15px; }
+  .hero { display:grid; grid-template-columns:1.2fr 1fr; gap:40px; align-items:center; padding:48px 0 56px; }
+  .hero h1 { font-size:clamp(32px, 6vw, 52px); line-height:1.1; margin:0 0 16px; letter-spacing:-0.5px; }
+  .hero p { color:var(--sub); font-size:18px; margin:0 0 28px; max-width:520px; }
+  .badge { display:inline-flex; align-items:center; gap:10px; padding:14px 22px; border-radius:30px; font-weight:700;
+           background:linear-gradient(90deg,#00E5C3,#3CC8F5); color:#0B1020; }
+  .note { display:block; margin-top:12px; font-size:14px; color:var(--sub); }
+  .phone { justify-self:center; width:260px; aspect-ratio:9/18.5; border-radius:36px; background:#0B1020; padding:10px;
+           box-shadow:0 0 0 1px var(--line), 0 30px 60px -20px rgba(11,16,32,.45); }
+  .screen { position:relative; width:100%; height:100%; border-radius:28px; overflow:hidden;
+            background:linear-gradient(180deg,#9fd8ef 0%,#d8f3ee 45%,#5ec8b4 46%,#2a9c88 100%); }
+  .sun { position:absolute; right:22%; top:12%; width:44px; height:44px; border-radius:50%; background:#FFC24B; }
+  .stamp { position:absolute; left:8%; right:8%; bottom:8%; border-radius:14px; background:rgba(11,16,32,.88);
+           border:1px solid rgba(0,229,195,.5); padding:12px; display:flex; gap:10px; color:#fff; font-size:11px; line-height:1.5; }
+  .stamp b { color:#00E5C3; font-weight:700; }
+  .qr { width:54px; height:54px; flex:none; border-radius:6px; background:#fff; padding:4px; }
+  .qr svg { width:100%; height:100%; display:block; }
+  section { padding:48px 0; }
+  h2 { font-size:28px; margin:0 0 8px; }
+  .lead { color:var(--sub); margin:0 0 28px; }
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:22px; }
+  .card h3 { margin:12px 0 6px; font-size:18px; }
+  .card p { margin:0; color:var(--sub); font-size:15px; }
+  .ico { width:44px; height:44px; border-radius:50%; background:var(--chip); display:grid; place-items:center; }
+  .ico svg { width:22px; height:22px; stroke:var(--accent); fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .privacy { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .pill { display:flex; gap:10px; align-items:flex-start; background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; }
+  .pill span { color:var(--accent); font-weight:800; }
+  footer { border-top:1px solid var(--line); padding:28px 0 40px; color:var(--sub); font-size:14px; }
+  footer .row { display:flex; flex-wrap:wrap; gap:18px; justify-content:space-between; }
+  footer a { color:var(--sub); }
+  @media (max-width: 820px) {
+    .hero { grid-template-columns:1fr; padding-top:24px; }
+    .grid, .privacy { grid-template-columns:1fr; }
+    nav a:not(:last-child) { display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="logo" href="#">
+      <svg viewBox="0 0 108 108" aria-hidden="true">
+        <defs><linearGradient id="g" gradientUnits="userSpaceOnUse" x1="27" y1="80" x2="82" y2="34"><stop offset="0" stop-color="#00E5C3"/><stop offset="1" stop-color="#FF6B35"/></linearGradient></defs>
+        <rect width="108" height="108" rx="24" fill="#0B1020"/>
+        <rect x="40" y="30.5" width="16" height="8" rx="3" fill="url(#g)"/>
+        <rect x="25.4" y="35.4" width="57.2" height="43.2" rx="8.6" fill="url(#g)"/>
+        <rect x="28.6" y="38.6" width="50.8" height="36.8" rx="5.4" fill="#192139"/>
+        <circle cx="54" cy="57" r="15.5" fill="url(#g)"/>
+        <circle cx="54" cy="57" r="11.8" fill="#0B1020"/>
+        <line x1="54" y1="57" x2="49.8" y2="54.1" stroke="#FF6B35" stroke-width="2.4" stroke-linecap="round"/>
+        <line x1="54" y1="57" x2="61" y2="53" stroke="#F2F5FF" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="73.5" cy="44.2" r="2.7" fill="#FF6B35"/>
+      </svg>
+      <span>Chroni<span class="v">V</span>ue</span>
+    </a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="guide.html">Guide</a>
+      <a href="#privacy">Privacy</a>
+      <a href="licenses.html">Licenses</a>
+      <a href="mailto:chronivue.support@gmail.com">Contact</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1>Proof in every photo.</h1>
+      <p>ChroniVue stamps the date, time, GPS location, address, map and QR code on your photos and videos, and turns paper into clean, searchable PDFs.</p>
+      <span class="badge">Coming soon to Google Play</span>
+      <a class="note" href="guide.html">How to use ChroniVue →</a>
+      <span class="note">Free · Android 10 and newer · 12 languages</span>
+    </div>
+    <div class="phone" aria-hidden="true">
+      <div class="screen">
+        <div class="sun"></div>
+        <div class="stamp">
+          <div>
+            Nov 6, 2026 · 10:15 AM<br>
+            <b>51.5007N 0.1246W ±4 m</b><br>
+            Westminster, London, UK
+          </div>
+          <div class="qr"><svg viewBox="0 0 21 21" shape-rendering="crispEdges"><g fill="#0B1020">
+            <path d="M0 0h7v7H0zM1 1v5h5V1zM2 2h3v3H2zM14 0h7v7h-7zM15 1v5h5V1zM16 2h3v3h-3zM0 14h7v7H0zM1 15v5h5v-5zM2 16h3v3H2z" fill-rule="evenodd"/>
+            <path d="M8 0h1v2H8zM10 1h2v1h-2zM9 3h2v2H9zM12 4h1v3h-1zM8 6h2v1H8zM0 8h2v1H0zM3 8h3v1H3zM8 8h3v2H8zM12 9h2v1h-2zM15 8h2v2h-2zM18 8h3v1h-3zM1 10h2v2H1zM5 10h2v2H5zM10 11h1v3h-1zM13 11h3v1h-3zM17 11h2v2h-2zM8 12h1v1H8zM12 13h2v2h-2zM15 13h1v3h-1zM19 14h2v1h-2zM8 15h3v1H8zM17 16h2v2h-2zM9 17h1v4H9zM11 18h3v1h-3zM14 19h2v2h-2zM18 19h3v1h-3zM12 20h1v1h-1z"/></g></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <h2>Everything a field photo needs</h2>
+    <p class="lead">Built for site engineers, inspectors, contractors and field teams.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+        <h3>Time & location stamp</h3>
+        <p>Date, time, GPS with accuracy, address, altitude, speed and weather on photos and videos.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 18h2"/></svg></div>
+        <h3>Map & QR code</h3>
+        <p>A small map and a QR code that opens the exact spot in Google Maps. Coordinates work offline.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 8V4h4M16 4h4v4M20 16v4h-4M8 20H4v-4"/><path d="M8 12h8"/></svg></div>
+        <h3>Document scanner</h3>
+        <p>Finds the page edges, removes shadows and saves a small PDF with copyable text. Up to 200 pages.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 7h6l2 2h10v10H3z"/></svg></div>
+        <h3>Projects & PDF reports</h3>
+        <p>A folder and tags for each site or job, and a one-tap PDF report of your photos.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg></div>
+        <h3>Compass & level</h3>
+        <p>A compass on screen and in photos, a level for straight shots and before/after compare.</p>
+      </div>
+      <div class="card">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5 5.5.8-4 3.9.9 5.5L12 15.6 7.1 18.2 8 12.7 4 8.8l5.5-.8z"/></svg></div>
+        <h3>Your brand</h3>
+        <p>Your company name and logo, colors, fonts and layout, in light or dark mode.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="guide">
+  <div class="wrap">
+    <h2>Learn every feature</h2>
+    <p class="lead">Step-by-step help for the camera, stamp, map and QR code, brand, scanner, projects and every setting.</p>
+    <a class="badge" href="guide.html">Open the guide</a>
+  </div>
+</section>
+
+<section id="privacy">
+  <div class="wrap">
+    <h2>Private by design</h2>
+    <p class="lead">Your photos, videos and documents stay on your phone.</p>
+    <div class="privacy">
+      <div class="pill"><span>✓</span><div>No account and no sign-in.</div></div>
+      <div class="pill"><span>✓</span><div>No ads and no analytics.</div></div>
+      <div class="pill"><span>✓</span><div>Scanning and text recognition run on your phone.</div></div>
+    </div>
+    <p style="margin-top:20px">Read the full <a href="privacy-policy.html">Privacy Policy</a>.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap row">
+    <div>© 2026 ChroniVue</div>
+    <div>
+      <a href="guide.html">Guide</a> &nbsp;·&nbsp;
+      <a href="privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp;
+      <a href="licenses.html">Open-source licenses</a> &nbsp;·&nbsp;
+      <a href="mailto:chronivue.support@gmail.com">chronivue.support@gmail.com</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
